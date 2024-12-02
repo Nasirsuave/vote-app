@@ -7,9 +7,57 @@
 
     {% tailwind_css %}
 
-    <title>Document</title>
+    <title>{% block title %}login{% endblock %}</title>
 </head>
 <body>
-    <h1>Hello world</h1>
+    <body class="bg-gray-100">
+        {% block labelOne %}
+        <div class="container mx-auto mt-10">
+            <!-- Login form -->
+            <form class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg" method="post" enctype="multipart/form-data">
+                <h1 class="text-3xl font-bold text-center text-blue-400">PRVote</h1>
+    
+                {% csrf_token %} <!-- CSRF token for security -->
+    
+                <!-- Login heading -->
+                <h3 class="mt-4 text-xl font-semibold">Login</h3>
+                <hr class="my-3">
+    
+                <!-- Display error/success messages -->
+                {% if messages %}
+                <div class="mb-4 p-3 text-blue-700 bg-blue-100 border border-blue-300 rounded-md">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% block firstName %}{% endblock %}
+
+                {% block lastName %}{% endblock %}
+
+                <!-- Username input field -->
+                {% block userName %}
+                    {% include 'inputField.html' with name="username" %}
+                {% endblock %}
+         
+                 
+    
+                <!-- Password input field -->
+                <div class="mb-4">
+                    <label for="exampleInputPassword1" class="block text-gray-700 font-medium">Password</label>
+                    <input type="password" name="password" id="exampleInputPassword1" class="w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300 focus:outline-none" placeholder="Password" required>
+                </div>
+    
+                <!-- Link to registration page -->
+                <p class="text-sm text-gray-600">
+                    Don't have an account? <a href="/register/" class="text-blue-500 hover:underline">Register</a>
+                </p>
+    
+                <!-- Submit button -->
+                <button type="submit" class="w-full mt-4 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">Submit</button>
+            </form>
+        </div>
+        {% endblock %}
 </body>
 </html>

@@ -1,0 +1,16 @@
+{% extends "login.html" %}
+
+{% block title %}register{% endblock %}
+
+
+{% block firstName %}
+        {% include 'inputField.html' with name="firstname" %}
+{% endblock %}
+
+{% block lastName %}
+        {% include 'inputField.html' with name="lastname" %}
+{% endblock %}
+
+{% block userName %}
+        {% include 'inputField.html' with name="username" %}
+{% endblock %}
