@@ -50,14 +50,20 @@
                 </div>
     
                 <!-- Link to registration page -->
+                
                 <p class="text-sm text-gray-600">
+                    {% block accountStatus %}
                     Don't have an account? <a href="/register/" class="text-blue-500 hover:underline">Register</a>
+                    {% endblock %}
                 </p>
+                
     
                 <!-- Submit button -->
                 <button type="submit" class="w-full mt-4 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">Submit</button>
             </form>
         </div>
         {% endblock %}
+
 </body>
+
 </html>
