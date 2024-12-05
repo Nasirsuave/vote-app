@@ -1,0 +1,90 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    {% tailwind_css %}
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&display=swap');
+
+        body{
+           font-family: 'Poppins', sans-serif !important;
+        }
+    </style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <!--some of the navbar will later extend this-->
+    <div class="flex">
+    <nav class="max-w-[15%] w-full  h-[40rem] border-[1px] border-solid border-[#ddd] flex flex-col pt-[5rem] px-[1rem]">
+        <div class="flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]">
+            <span class="material-icons">home</span>
+            <p>Dashboard</p>
+        </div>
+        <div class="flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]">
+            <span class="material-icons">notifications</span>
+            <p>Notification</p>
+        </div>
+        <div class="flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]">
+            <span class="material-icons">person</span>
+            <p>Profile</p>
+        </div>
+        <div class="flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]">
+            <span class="material-icons">settings</span>
+            <p>Manage</p>
+        </div>
+        <div class="flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]" onclick="window.location.href='/logout/'">
+            <span class="material-icons">logout</span>
+            <p>Logout</p>
+        </div>
+    </nav>
+    <!--some of the navbar will later extend this-->
+    <main class="w-full p-[2rem]">
+        <div class="flex justify-between">
+            <h1 class="text-2xl font-bold tracking-normal">Total Elections added: </h1>
+            <h1 class="text-2xl font-bold tracking-normal">Total Elections created: </h1>
+        </div>
+        <!--will style here later when elections are been added-->
+        <div class="my-[5rem] text-xl font-bold">
+            <h1>Elections added</h1>
+        </div>
+        <!--will style here later when elections created are been added-->
+        <div class="my-[5rem] text-xl font-bold">
+            <h1>Elections created</h1>
+        </div>
+
+        <div class="flex list-none justify-around border-[1px] border-[#ddd] rounded-md py-[1rem] ">
+            <li class="text-center">
+                <button class="bg-black opacity-[0.8] hover:opacity-[1] text-white p-[0.4rem] rounded-md w-[10rem] mb-[1rem]"><i class="fas fa-plus"></i> Create Election</button>
+                <p class="w-[15rem] text-[0.81rem] text-[#aaa]">An election has a fixed voter list, and only those voters can vote.</p>
+            </li>
+            <li class="text-center">
+                <button class="bg-black opacity-[0.8] hover:opacity-[1] text-white p-[0.4rem] rounded-md w-[10rem] mb-[1rem]"><i class="fas fa-plus"></i> Create Poll</button>
+                <p class="w-[15rem] text-[0.81rem] text-[#aaa]">A poll allows anyone to vote. Simpler and good for casual voting.</p>
+
+            </li>
+               <li class="text-center">
+                <button class="bg-black opacity-[0.8] hover:opacity-[1] text-white p-[0.4rem] rounded-md w-[10rem] mb-[1rem]"><i class="fas fa-plus"></i> Check Result</button>
+                <p class="w-[15rem] text-[0.81rem] text-[#aaa]">An election has a fixed voter list, and only those voters can vote.</p>
+
+            </li>
+        </div>
+        
+        
+    </main>
+</div>
+    {% else %}
+     <script>
+        window.location.href = "{% url 'login' %}"
+     </script>
+    {% endif %}
+    
+   
+</body>
+</html>
