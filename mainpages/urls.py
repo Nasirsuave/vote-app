@@ -3,6 +3,6 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    # path('', home,name='home'),
-    # path('home/', home,name='home')
+    path('', createElection,name='election-create'),
+   path('election-create/', createElection,name='election-create'),
 ]

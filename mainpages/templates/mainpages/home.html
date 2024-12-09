@@ -19,6 +19,7 @@
     </style>
 </head>
 <body>
+    {% block navbar %}
     {% if user.is_authenticated %}
     <!--some of the navbar will later extend this-->
     <div class="flex">
@@ -45,6 +46,7 @@
         </div>
     </nav>
     <!--some of the navbar will later extend this-->
+    {% block otherPages %}
     <main class="w-full p-[2rem]">
         <div class="flex justify-between">
             <h1 class="text-2xl font-bold tracking-normal">Total Elections added: </h1>
@@ -61,7 +63,7 @@
 
         <div class="flex list-none justify-around border-[1px] border-[#ddd] rounded-md py-[1rem] ">
             <li class="text-center">
-                <button class="bg-black opacity-[0.8] hover:opacity-[1] text-white p-[0.4rem] rounded-md w-[10rem] mb-[1rem]"><i class="fas fa-plus"></i> Create Election</button>
+                <button class="bg-black opacity-[0.8] hover:opacity-[1] text-white p-[0.4rem] rounded-md w-[10rem] mb-[1rem]" onclick="window.location.href='mainpages/create-election'"><i class="fas fa-plus"></i> Create Election</button>
                 <p class="w-[15rem] text-[0.81rem] text-[#aaa]">An election has a fixed voter list, and only those voters can vote.</p>
             </li>
             <li class="text-center">
@@ -78,13 +80,15 @@
         
         
     </main>
+    {% endblock %}
 </div>
+
     {% else %}
      <script>
         window.location.href = "{% url 'login' %}"
      </script>
     {% endif %}
     
-   
+    {% endblock %}
 </body>
 </html>

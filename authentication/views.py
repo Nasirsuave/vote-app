@@ -39,7 +39,7 @@ def login_page(request):
             return redirect('/')
     
     # Render the login page template (GET request)
-    return render(request, 'login.html')
+    return render(request, 'authentication/login.html')
 
 # Define a view function for the registration page
 def register_page(request):
@@ -74,9 +74,11 @@ def register_page(request):
         return redirect('/register/')
     
     # Render the registration page template (GET request)
-    return render(request, 'register.html')
+    return render(request, 'authentication/register.html')
 
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
 

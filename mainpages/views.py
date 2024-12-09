@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-# def home(request):
-#     return render(request, 'mainpages/home.html')
+
+def createElection(request):
+    return render(request,'mainpages/create_election.html')
+
