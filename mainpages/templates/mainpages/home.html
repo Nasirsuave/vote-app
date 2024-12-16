@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,6 +11,7 @@
 
     {% tailwind_css %}
     <title>Document</title>
+    {% block style %}
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&display=swap');
 
@@ -17,6 +19,7 @@
            font-family: 'Poppins', sans-serif !important;
         }
     </style>
+   {% endblock %}
 </head>
 <body>
     {% block navbar %}
@@ -24,7 +27,7 @@
     <!--some of the navbar will later extend this-->
     <div class="flex">
     <nav class="max-w-[15%] w-full  h-[40rem] border-[1px] border-solid border-[#ddd] flex flex-col pt-[5rem] px-[1rem]">
-        <div class="flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]">
+        <div class="flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]" onclick="window.location.href='/'">
             <span class="material-icons">home</span>
             <p>Dashboard</p>
         </div>
@@ -63,7 +66,7 @@
 
         <div class="flex list-none justify-around border-[1px] border-[#ddd] rounded-md py-[1rem] ">
             <li class="text-center">
-                <button class="bg-black opacity-[0.8] hover:opacity-[1] text-white p-[0.4rem] rounded-md w-[10rem] mb-[1rem]" onclick="window.location.href='mainpages/create-election'"><i class="fas fa-plus"></i> Create Election</button>
+                <button class="bg-black opacity-[0.8] hover:opacity-[1] text-white p-[0.4rem] rounded-md w-[10rem] mb-[1rem]" onclick="window.location.href='election-create'"><i class="fas fa-plus"></i> Create Election</button>
                 <p class="w-[15rem] text-[0.81rem] text-[#aaa]">An election has a fixed voter list, and only those voters can vote.</p>
             </li>
             <li class="text-center">

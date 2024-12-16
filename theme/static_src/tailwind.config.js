@@ -42,8 +42,13 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
-    },
+        extend: {
+          keyframes: {
+            
+            
+        },
+      },
+      
     plugins: [
         /**
          * '@tailwindcss/forms' is the forms plugin that provides a minimal styling
@@ -54,4 +59,5 @@ module.exports = {
         require('@tailwindcss/typography'),
         require('@tailwindcss/aspect-ratio'),
     ],
+}
 }

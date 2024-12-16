@@ -16,7 +16,6 @@
         }
     </style>
 </head>
-<body>
     
     <body class="bg-gray-100">
         {% block labelOne %}
@@ -46,7 +45,7 @@
 
                 <!-- Username input field -->
                 {% block userName %}
-                    {% include 'inputField.html' with name="username" %}
+                    {% include 'authentication/inputField.html' with name="username" %}
                 {% endblock %}
          
                  

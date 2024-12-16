@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 
-@layer base{
+/* @layer base{
     .navbars {
         @apply flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]
 }
-}
+} */

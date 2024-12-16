@@ -1,3 +1,62 @@
 {% extends "mainpages/home.html" %}
 
-{% block otherPages %}{% endblock %}
+{% block style %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&display=swap');
+
+    body{
+       font-family: 'Poppins', sans-serif !important;
+    }
+
+    .after-welcome::after{
+        content: "";
+        position: absolute; 
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: #ddd;
+        animation: typing 3s steps(60) forwards;
+    }
+    @keyframes typing {
+   80%,100%{
+    left: calc(100% + 30px);
+        }
+    }
+    .after-welcome{
+        /* text-shadow: 2px 2px; */
+        font-style: oblique;
+        width: 100%;
+        font-size: 30px;
+        font-weight: 500;
+    }
+    .after-button::after{
+        content: "";
+        position: absolute; 
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: #ddd;
+        animation: btn-display 6s steps(2) forwards;
+    }
+    @keyframes btn-display{
+        80%,100%{
+        left: calc(100% + 30px);
+         
+        }
+    }
+</style>
+{% endblock %}
+
+{% block otherPages %}
+<main class="bg-[#ddd] w-full">
+<div class="text-[30px] font-[500] text-[#343F4F] m-[2rem]">
+    <div class="relative after-welcome">
+        Welcome to the election creation page.....want to create an election?
+    </div>
+    <div class="relative after-button text-[text-[#343F4F]]">
+     <button class="border-[1px] border-solid border-collapse shadow-sm  px-[1rem] py-[0.3rem] rounded-md ">Create</button>    </div>
+</div>
+
+</main>
+
+{% endblock %}
