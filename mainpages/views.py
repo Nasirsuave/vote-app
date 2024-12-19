@@ -5,3 +5,4 @@ from django.shortcuts import render
 def createElection(request):
     return render(request,'mainpages/create_election.html')
 
+
