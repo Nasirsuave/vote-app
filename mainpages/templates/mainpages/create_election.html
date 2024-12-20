@@ -100,15 +100,17 @@ left: calc(100% + 30px);
     </div>
     <div class="form-outer">
       <form action="{% url 'election-create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+      
         <div class="page slide-page">
           <div class="title">Basic Info:</div>
           <div class="field">
             <div class="label">Election title</div>
-            <input type="text" name="election_title">
+            <input type="text" name="title">
           </div>
           <div class="field">
             <div class="label">Election description</div>
-            <textarea type="text" name="election_description"></textarea>
+            <textarea type="text" name="description"></textarea>
           </div>
           <div class="field">
             <button class="firstNext next">Next</button>
@@ -123,7 +125,7 @@ left: calc(100% + 30px);
           </div>
           <div class="field">
             <div class="label">Load users</div>
-            <input type="file">
+            <input type="file" name="file" accept=".csv">
           </div>
           <div class="field btns">
             <button class="prev-1 prev">Previous</button>
