@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.contrib import messages
 from .models import Election,Candidate,Vote,VoterEligibility
+from django.contrib.auth.models import User
 import csv
+
 
 # Create your views here.
 
@@ -31,10 +33,18 @@ def createElection(request):
         csv_file = request.FILES.get('file')
         if csv_file.name.endswith('.csv'):
             reader = csv.reader(csv_file.read().decode('utf-8').splitlines())
+            for row in reader:
+                username = row[0].strip()
+                try:
+                    user = User.objects.get(username=username)
+                    VoterEligibility.objects.get_or_create(election=election,user=user)
+                except Exception as UserNotFound:
+                    continue
+
 
 
         
-        messages.info(request, "Election created Successfully!")
+        #messages.info(request, "Election created Successfully!")
 
 
     return render(request,'mainpages/create_election.html')
