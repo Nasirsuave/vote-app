@@ -3,7 +3,8 @@ from django.contrib import messages
 from .models import Election,Candidate,Vote,VoterEligibility
 from django.contrib.auth.models import User
 import csv
-
+from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -41,12 +42,26 @@ def createElection(request):
                 except Exception as UserNotFound:
                     continue
 
-
-
-        
         #messages.info(request, "Election created Successfully!")
-
 
     return render(request,'mainpages/create_election.html')
 
 
+def election_list(request):
+    print("User id : ",request.user.id)
+    print(VoterEligibility.objects.filter(
+    #    user=request.user.id,
+        election__start_date__lte=timezone.now(), 
+        election__end_date__gt=timezone.now()
+    )
+)
+    return VoterEligibility.objects.filter(
+       user=request.user.id,
+        election__start_date__lte=timezone.now(), 
+        election__end_date__gt=timezone.now()
+    )
+
+
+def election_detail(request,election_id):
+    election = get_object_or_404(Election,pk=election_id)
+    return render(request,'mainpages/election_detail.html',{'election':election})

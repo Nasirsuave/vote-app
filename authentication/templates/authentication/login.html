@@ -60,7 +60,7 @@
                 
                 <p class="text-sm text-gray-600">
                     {% block accountStatus %}
-                    Don't have an account? <a href="/register/" class="text-blue-500 hover:underline">Register</a>
+                    Don't have an account? <a href="{% url 'register' %}" class="text-blue-500 hover:underline">Register</a>
                     {% endblock %}
                 </p>
                 

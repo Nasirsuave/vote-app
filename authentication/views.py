@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from mainpages.models import VoterEligibility,Election
 # Create your views here.
 # Import necessary modules and models
 from django.shortcuts import render, redirect
@@ -8,10 +8,16 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
+from mainpages.views import election_list
 
 # Define a view function for the home page
 def home(request):
-    return render(request, 'mainpages/home.html')
+    print("Request User (username):", request.user.username)
+
+    active_elections = election_list(request)
+
+    return render(request, 'mainpages/home.html',{'active_elections':active_elections})
+
 
 # Define a view function for the login page
 def login_page(request):
