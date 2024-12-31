@@ -67,11 +67,11 @@
         <h1 class="text-xl font-bold relative top-[5rem]">Elections added</h1>
         <div class="my-[5rem] grid grid-cols-4 gap-[2rem]">
             {% for eligibility in active_elections %}
-            <div class="border-[1px] border-solid p-[1rem] shadow-md  rounded-md text-center">
-              <span>Election id: {{ eligibility.election.id }}</span> <!-- Access Election model through the relationship -->
-              <p>Start Date: {{ eligibility.election.start_date }}</p>
-              <p>End Date: {{ eligibility.election.end_date }}</p>
-              <a href="{% url 'election-detail' eligibility.election.id %}" class="block mt-[3rem] bg-[#d33f8d] p-[0.2rem] text-white rounded-md">Click to vote</a>
+                <div class="border-[1px] border-solid p-[1rem] shadow-md  rounded-md text-center">
+                <span>Election id: {{ eligibility.election.id }}</span> <!-- Access Election model through the relationship -->
+                <p>Start Date: {{ eligibility.election.start_date }}</p>
+                <p>End Date: {{ eligibility.election.end_date }}</p>
+                <a href="{% url 'election-detail' eligibility.election.id %}" class="block mt-[3rem] bg-[#d33f8d] p-[0.2rem] text-white rounded-md">Click to vote</a>
             </div>
             
             {% endfor %}

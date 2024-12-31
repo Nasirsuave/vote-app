@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import Election,Candidate,Vote,VoterEligibility
 from django.contrib.auth.models import User
 import csv
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 # Create your views here.
 
@@ -48,7 +49,7 @@ def createElection(request):
 
 
 def election_list(request):
-    print("User id : ",request.user.id)
+    # print("User id : ",request.user.id)
     print(VoterEligibility.objects.filter(
     #    user=request.user.id,
         election__start_date__lte=timezone.now(), 
@@ -56,7 +57,7 @@ def election_list(request):
     )
 )
     return VoterEligibility.objects.filter(
-       user=request.user.id,
+        user=request.user.id,
         election__start_date__lte=timezone.now(), 
         election__end_date__gt=timezone.now()
     )
@@ -64,4 +65,34 @@ def election_list(request):
 
 def election_detail(request,election_id):
     election = get_object_or_404(Election,pk=election_id)
-    return render(request,'mainpages/election_detail.html',{'election':election})
+    election_candidates = Candidate.objects.filter(election=election_id)
+
+    return render(request,
+                  'mainpages/election_detail.html',
+                  {'election':election,'election_candidates':election_candidates}
+                  )
+
+
+def cast_vote(request,election_id):
+    if request.method == 'POST':
+        candidate_id = request.POST.get('candidates')
+        print(f"Candidate ID from POST: {candidate_id}")
+        
+        current_election =  get_object_or_404(Election,pk=election_id)
+        print(f"Current Election ID from POST: {election_id}")
+
+        candidate = get_object_or_404(Candidate, pk=candidate_id)
+
+        Vote.objects.create(
+              candidate=candidate,
+              user=request.user,
+              election = current_election,
+              vote = True
+        )
+
+        messages.info(request,f'Dear {request.user.username},your vote has been recorded')
+        return redirect(reverse('mainpages/election-detail', args=[election_id]))
+
+    return render(request,'mainpages/election_detail.html')
+
+
