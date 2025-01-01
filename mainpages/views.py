@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from django.contrib import messages
 from .models import Election,Candidate,Vote,VoterEligibility
 from django.contrib.auth.models import User
@@ -90,9 +91,11 @@ def cast_vote(request,election_id):
               vote = True
         )
 
-        messages.info(request,f'Dear {request.user.username},your vote has been recorded')
-        return redirect(reverse('mainpages/election-detail', args=[election_id]))
+        # messages.info(request,f'Dear {request.user.username},your vote has been recorded')
+        # return redirect(reverse('mainpages/election-detail', args=[election_id]))
 
-    return render(request,'mainpages/election_detail.html')
+        return JsonResponse({'message': 'Your vote has been recorded successfully!'})
+    # return render(request,'mainpages/election_detail.html')
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 

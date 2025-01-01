@@ -3,6 +3,8 @@ seeMore = document.querySelector('.see-more')
 seeMoreIcon = document.querySelector('.see-more .icon')
 const formContainer = document.querySelector('.form-container')
 const completionMessage = document.querySelector('.completion-msg')
+const messageContainer = document.querySelector('.completion-msg .message-container')
+
 
 castButton.addEventListener('click',()=>{
     //  document.body.style.opacity = "0.6"
@@ -29,4 +31,33 @@ seeMore.addEventListener('click',()=>{
           seeMoreIcon.classList.remove("fa-chevron-up");
           seeMoreIcon.classList.add("fa-chevron-down");
         }
+})
+
+formContainer.addEventListener('submit',event =>{
+    event.preventDefault();
+    
+    const electionId = formContainer.dataset.electionId; 
+    const casturl = formContainer.dataset.castUrl;
+    const formData = new FormData(formContainer);
+
+  //   for (const [key, value] of formData.entries()) {
+  //     console.log(`${key}: ${value}`);
+  // }
+    const xhr = new XMLHttpRequest();
+
+    //const url = "{% url 'cast-vote' election.id %}"
+    //.replace('election.id', electionId);
+    xhr.open("POST", casturl, true);
+
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+          // Success: Display the message returned by the server
+          const response = JSON.parse(xhr.responseText);  // Assuming response is JSON
+          messageContainer.innerHTML = `${response.message}`;
+      } else {
+          // Error: Something went wrong with the request
+          messageContainer.innerHTML = "Something went wrong. Please try again later.";
+      }
+  };
+  xhr.send(formData);
 })
