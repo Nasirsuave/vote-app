@@ -9,6 +9,9 @@ const messageContainer = document.querySelector('.completion-msg .message-contai
 castButton.addEventListener('click',()=>{
     //  document.body.style.opacity = "0.6"
      completionMessage.style.opacity = "1"
+     //document.body.style.opacity = ".4"
+     //completionMessage.style.top = "24rem"
+     completionMessage.classList.add('moved')
 })
 
 seeMore.addEventListener('click',()=>{
@@ -54,9 +57,14 @@ formContainer.addEventListener('submit',event =>{
           // Success: Display the message returned by the server
           const response = JSON.parse(xhr.responseText);  // Assuming response is JSON
           messageContainer.innerHTML = `${response.message}`;
+          messageContainer.classList.add('message-success')
+
+
       } else {
           // Error: Something went wrong with the request
           messageContainer.innerHTML = "Something went wrong. Please try again later.";
+          messageContainer.classList.add('message-fail')
+
       }
   };
   xhr.send(formData);

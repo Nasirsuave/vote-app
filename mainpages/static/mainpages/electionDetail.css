@@ -74,13 +74,19 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 2rem;
+    top: -20rem;
     left: 2rem;
     transform: translateX(74%);
     border-radius: 10px;
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.1);
     opacity: 0; 
+    transition: .3s linear;
 }
+
+.moved{
+    top: 2.5rem;
+}
+
 
 .completion-msg .escp{
     position: relative;
@@ -88,4 +94,13 @@
     top: -7rem;
     left: 12rem;
     cursor:default;
+}
+
+ .message-success{
+    font-size: 1.5rem;
+}
+
+.message-fail{
+    font-size: 1.5rem;
+    color: red;
 }

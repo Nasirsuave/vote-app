@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
+from mainpages.models import VoterEligibility
 from mainpages.views import election_list
 
 # Define a view function for the home page
@@ -15,8 +16,13 @@ def home(request):
     print("Request User (username):", request.user.username)
 
     active_elections = election_list(request)
+    total_elections = VoterEligibility.objects.filter(user=request.user.id).count()
 
-    return render(request, 'mainpages/home.html',{'active_elections':active_elections})
+    return render(request, 'mainpages/home.html',
+                  {'active_elections':active_elections,
+                   'total_elections':total_elections
+                   }
+                  )
 
 
 # Define a view function for the login page

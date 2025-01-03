@@ -6,8 +6,7 @@ from django.contrib.auth.models import User
 import csv
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
-
+from django.db.models import Count
 # Create your views here.
 
 def createElection(request):
@@ -94,8 +93,45 @@ def cast_vote(request,election_id):
         # messages.info(request,f'Dear {request.user.username},your vote has been recorded')
         # return redirect(reverse('mainpages/election-detail', args=[election_id]))
 
-        return JsonResponse({'message': 'Your vote has been recorded successfully!'})
+        return JsonResponse({'message': '✅Your vote has been recorded successfully!'})
     # return render(request,'mainpages/election_detail.html')
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+
+def checkResult(request):
+    return render(request,'mainpages/check_result.html')
+
+
+
+def displayResult(request):
+    if request.method == "POST":
+        electionId = request.POST.get('electionId')
+        
+        ready_display = VoterEligibility.objects.filter(
+            election=electionId,
+            user=request.user.id,
+            election__end_date__lt=timezone.now()
+            ).exists()
+    
+        election_candidates = Candidate.objects.filter(election=electionId)
+        total_cast = Vote.objects.filter(election=electionId).count()
+        #each_total_vote = Vote.objects.filter(election=electionId).values('candidate__id').annotate('total_vote',Count('candidate__id'))
+    
+        if ready_display:
+            election_candidates_list = [
+                {
+                   'name': candidate.name,
+                }
+                for candidate in election_candidates
+           ]
+
+
+            return JsonResponse({
+                'election_candidates':election_candidates_list,
+
+            })
+        elif not ready_display:
+            return JsonResponse({'election_candidates': []})
+        
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
