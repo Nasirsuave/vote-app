@@ -14,12 +14,15 @@ resultContainer.addEventListener('submit',event =>{
         if (xhr.status === 200) {
             // Success: Display the message returned by the server
             const response = JSON.parse(xhr.responseText);  // Assuming response is JSON
-            console.log(response)
             const candidates = response.election_candidates;
             
             if(candidates.length>0){
                 for(const candidate of candidates){
-                    displayContainer.innerHTML += `<li>${candidate.name}</li>`;
+                    console.log(candidate.total_vote)
+                    displayContainer.innerHTML += `<div class='flex justify-between '>
+                    <li class='list-none'>${candidate.name}</li>
+                    <p>${candidate.total_vote}</p>
+                    </div>`;
                 }
             }
             else if(candidates.length === 0){

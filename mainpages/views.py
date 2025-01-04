@@ -115,20 +115,24 @@ def displayResult(request):
     
         election_candidates = Candidate.objects.filter(election=electionId)
         total_cast = Vote.objects.filter(election=electionId).count()
-        #each_total_vote = Vote.objects.filter(election=electionId).values('candidate__id').annotate('total_vote',Count('candidate__id'))
+        each_total_vote = Vote.objects.filter(election=electionId).values('candidate__id').annotate(total_count=Count('candidate__id'))
     
         if ready_display:
             election_candidates_list = [
                 {
                    'name': candidate.name,
+                   'total_vote':next(
+                                (vote['total_count'] for vote in each_total_vote if vote['candidate__id'] == candidate.id),0
+                                    )
                 }
                 for candidate in election_candidates
            ]
-
+            
 
             return JsonResponse({
                 'election_candidates':election_candidates_list,
-
+                # 'candidates_total':each_candidates_list,
+                # 'total_cast':total_cast
             })
         elif not ready_display:
             return JsonResponse({'election_candidates': []})
