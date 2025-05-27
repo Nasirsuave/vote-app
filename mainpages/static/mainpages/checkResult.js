@@ -15,15 +15,18 @@ resultContainer.addEventListener('submit',event =>{
             // Success: Display the message returned by the server
             const response = JSON.parse(xhr.responseText);  // Assuming response is JSON
             const candidates = response.election_candidates;
+            console.log(response.winner)
             
             if(candidates.length>0){
                 for(const candidate of candidates){
-                    console.log(candidate.total_vote)
                     displayContainer.innerHTML += `<div class='flex justify-between '>
                     <li class='list-none'>${candidate.name}</li>
                     <p>${candidate.total_vote}</p>
                     </div>`;
+
+                    displayContainer.innerHTML += `<p>Winner - ${response.winner}</p>`
                 }
+
             }
             else if(candidates.length === 0){
                 displayContainer.innerHTML += `<p>Result not available for online display</p>`;

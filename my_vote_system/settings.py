@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,14 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # 'daphne',
     'django.contrib.staticfiles',
     'authentication',
     'mainpages',
+    'notification',
 
 
     'tailwind',
     'theme',
     'django_browser_reload',
+    'channels',
+    
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -53,6 +58,7 @@ INTERNAL_IPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,6 +88,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'my_vote_system.wsgi.application'
+
+ASGI_APPLICATION = 'my_vote_system.asgi.application'  # Replace
 
 
 # Database
@@ -130,8 +138,60 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'authentication', 'static'),
+    os.path.join(BASE_DIR, 'notification', 'static'),
+    os.path.join(BASE_DIR, 'mainpages', 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REDIS_HOST = 'localhost'  # Change if your Redis server is on a different host
+REDIS_PORT = 6379  # Default Redis port
+REDIS_DB = 0  # Default Redis database
+
+REDIS_CONNECTION = {
+    'default': {
+        'host': REDIS_HOST,
+        'port': REDIS_PORT,
+        'db': REDIS_DB,
+    },
+}
+
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "host": [f"redis://{REDIS_HOST}:{REDIS_PORT}/"],  # Use the variables from  REDIS_HOST and REDIS_PORT
+#         },
+#     },
+# }
+
+# REDIS_HOST = 'localhost'  # Change if your Redis server is on a different host
+# REDIS_PORT = 6379  # Default Redis port
+# REDIS_DB = 0  # Default Redis database
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#                 "url": f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}", 
+#         },
+#     },
+# }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}

@@ -1,0 +1,18 @@
+{% extends "mainpages/home.html" %}
+{% load static %}
+
+{% block anotherMeta %}
+<meta id="user-id" data-user-id="{{ request.user.id }}">
+{% endblock %}
+
+{% block otherPages %}
+<main class="w-full p-[2rem] bg-[#ddd]">
+   <div class="text-3xl p-[2rem] font-bold tracking-normal flex justify-center">
+    <h1>Notifications</h1>
+   </div>
+
+   <div id="display-notification"></div>
+</main>
+
+<script src="{% static 'notification/notification-management.js' %}"></script>
+{% endblock %}

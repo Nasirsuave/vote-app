@@ -5,8 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block anotherMeta%}{% endblock %}
     
-    {% block linkCSS%}
+    {% block linkCSS %}
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     {% endblock %}
@@ -17,12 +18,14 @@
     <title>Document</title>
    
     <style>
+       
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&display=swap');
 
         body{
            font-family: 'Poppins', sans-serif !important;
            overflow-x: hidden;
         }
+      
         .total-election{
             background-image: linear-gradient(to bottom,#d33f8d,black);
             background-clip:text;
@@ -40,7 +43,7 @@
 
 
 <body>
-    {% block navbar %}
+    
     {% if user.is_authenticated %}
     <!--some of the navbar will later extend this-->
     <div class="flex">
@@ -49,7 +52,7 @@
             <span class="material-icons">home</span>
             <p>Dashboard</p>
         </div>
-        <div class="flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]">
+        <div class="flex gap-[0.5rem] justify-left my-[0.5rem] cursor-pointer hover:bg-[#ddd] rounded-md p-[0.5rem]" onclick="window.location.href='notification-create'">
             <span class="material-icons">notifications</span>
             <p>Notification</p>
         </div>
@@ -117,13 +120,15 @@
     </main>
     {% endblock %}
 </div>
-
+     <!--If the user is not authenticated then stay or take them to the login page-->
     {% else %}
+    
      <script>
         window.location.href = "{% url 'login' %}"
      </script>
+   
     {% endif %}
     
-    {% endblock %}
+    
 </body>
 </html>

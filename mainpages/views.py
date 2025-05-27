@@ -7,6 +7,9 @@ import csv
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
+from notification.views import trigger_notification
+from asgiref.sync import async_to_sync,sync_to_async
+
 # Create your views here.
 
 def createElection(request):
@@ -40,11 +43,15 @@ def createElection(request):
                 try:
                     user = User.objects.get(username=username)
                     VoterEligibility.objects.get_or_create(election=election,user=user)
+                    async_to_sync(trigger_notification)(election.id,election.title,user.id)
+                    # trigger_notification(election,user)
+                     #invoke the notification function here later
+                     #so that notification will be sent after the election has been created
                 except Exception as UserNotFound:
                     continue
 
         #messages.info(request, "Election created Successfully!")
-
+       
     return render(request,'mainpages/create_election.html')
 
 
@@ -116,7 +123,11 @@ def displayResult(request):
         election_candidates = Candidate.objects.filter(election=electionId)
         total_cast = Vote.objects.filter(election=electionId).count()
         each_total_vote = Vote.objects.filter(election=electionId).values('candidate__id').annotate(total_count=Count('candidate__id'))
-    
+        winner = Vote.objects.filter(election=electionId).values('candidate__id').annotate(total_count=Count('candidate__id')).order_by('-total_count')  # Sort by total_count in descending order.first()  # Get the first entry, which will be the candidate with the highest votes
+        
+
+        
+
         if ready_display:
             election_candidates_list = [
                 {
@@ -131,8 +142,7 @@ def displayResult(request):
 
             return JsonResponse({
                 'election_candidates':election_candidates_list,
-                # 'candidates_total':each_candidates_list,
-                # 'total_cast':total_cast
+                
             })
         elif not ready_display:
             return JsonResponse({'election_candidates': []})
