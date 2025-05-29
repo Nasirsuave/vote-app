@@ -1,0 +1,30 @@
+
+/* flex gap-[4rem] items-center bg-white my-[2rem] rounded-md max-w-[45rem] mx-auto */
+.styleBigDiv{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    gap: 4rem;
+    margin: 2rem 0;
+    border-radius: 6px;
+    max-width: 45rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.styleNewDiv{
+    padding: 2rem;
+}
+
+/* bg-[#d33f8d] text-[#fff] hover:bg-black rounded-[5px] tracking-[1px] p-[1rem] */
+.styleNewButton{
+   background-color:#d33f8d ;
+   color: #fff;
+   border-radius: 5px;
+   letter-spacing: 1px;
+   padding: 1rem;
+}
+
+.styleNewButton:hover {
+    background-color: black; /* from 'hover:bg-black' */
+}

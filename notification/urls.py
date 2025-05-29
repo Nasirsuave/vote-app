@@ -6,6 +6,7 @@ from datetime import date
 urlpatterns = [
     path('',notificationCreate,name='create-notification'),
     path('notify-user/<int:election_id>/<int:user_id>/',trigger_notification,name='notify-user'),
+    path('notification-list/',notification_list, name='notification-list'),
     
     ]
 

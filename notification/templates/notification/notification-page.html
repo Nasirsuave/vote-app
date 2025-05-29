@@ -5,13 +5,30 @@
 <meta id="user-id" data-user-id="{{ request.user.id }}">
 {% endblock %}
 
+{% block linkCSS %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'notification/notification_management.css' %}">
+{% endblock %}
+
 {% block otherPages %}
 <main class="w-full p-[2rem] bg-[#ddd]">
    <div class="text-3xl p-[2rem] font-bold tracking-normal flex justify-center">
     <h1>Notifications</h1>
    </div>
 
-   <div id="display-notification"></div>
+   <div id="display-notification" class=" max-w-[70%] mx-auto flex-col justify-center">
+      {% for all_notif in all_notifications_for_template %}
+      <div class="flex gap-[4rem] items-center bg-white my-[2rem] rounded-md max-w-[45rem] mx-auto">
+        <div class="p-[2rem]">
+         <h3 class="font-bold">Election Update</h3>
+         <p>{{all_notif.created_at_humanized}} </p>
+         <p>{{all_notif.message}}</p>
+        </div>
+        <button class="bg-[#d33f8d] text-[#fff] hover:bg-black rounded-[5px] tracking-[1px] p-[1rem]">View</button>
+      </div>
+      {% endfor %}
+   </div>
 </main>
 
 <script src="{% static 'notification/notification-management.js' %}"></script>

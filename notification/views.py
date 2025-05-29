@@ -6,10 +6,134 @@ from .models import UserNotification
 from django.contrib.auth.models import User
 import json
 from django.utils import timezone
+import datetime
+
+
+def format_time_ago_python(created_at_dt):
+    """
+    Formats a datetime object into a "time ago" string.
+    """
+
+    # Step 1: Ensure created_at_dt is timezone-aware
+    # In our example, created_at_dt (from DB) is already timezone-aware (<UTC>)
+    # So, this 'if' condition will be False.
+    if timezone.is_naive(created_at_dt):
+        #DEBUG: created_at_dt was naive, making it aware to UTC.
+        created_at_dt = timezone.make_aware(created_at_dt, timezone.utc)
+    else:
+        print(f"DEBUG: created_at_dt is already timezone-aware.")
+    print(f"After timezone check, created_at_dt: {created_at_dt}")
+
+
+    # Step 2: Get the current timezone-aware time
+    now = timezone.now()
+    #\nStep 2: Getting current time.
+    #Current time (now): {now}
+    #Type of now: {type(now)}
+
+
+    # Step 3: Calculate the difference (timedelta object)
+    diff = now - created_at_dt
+    #\nStep 3: Calculating time difference.
+    #Difference (timedelta object): {diff}
+    # Example Calculation:
+    #   (2025, 5, 27, 17, 39, 27, ...) - (2025, 5, 27, 17, 28, 47, ...)
+    #   = 0 days, 0 hours, 10 minutes, 40 seconds
+    #   (plus microseconds, if any)
+
+
+    # Step 4: Convert timedelta to total seconds
+    total_seconds = diff.total_seconds()
+    #\nStep 4: Converting difference to total seconds.
+    #Total seconds: {total_seconds}
+    # Example: 10 minutes * 60 seconds/minute + 40 seconds = 600 + 40 = 640 seconds
+    # So, total_seconds will be approximately 640.0 (or 640.something if microseconds are involved)
+
+
+    # Step 5: Calculate differences in various units (and round)
+    diff_minutes = round(total_seconds / 60)
+    #\nStep 5a: Calculating difference in minutes.
+    #Raw minutes: {total_seconds / 60}
+    #Rounded diff_minutes: {diff_minutes}
+    # Example: round(640.0 / 60) = round(10.666...) = 11
+
+    diff_hours = round(total_seconds / (60 * 60))
+    #Step 5b: Calculating difference in hours.
+    #Raw hours: {total_seconds / 3600}
+    #Rounded diff_hours: {diff_hours}
+    # Example: round(640.0 / 3600) = round(0.177...) = 0
+
+    diff_days = round(total_seconds / (60 * 60 * 24))
+    #Step 5c: Calculating difference in days.
+    #Raw days: {total_seconds / 86400}
+    #Rounded diff_days: {diff_days}
+    # Example: round(640.0 / 86400) = round(0.007...) = 0
+
+
+    # Step 6: Apply conditional logic to return the appropriate string.
+    #\nStep 6: Applying conditional logic.
+    if diff_minutes < 1:
+        #Condition: diff_minutes ({diff_minutes}) < 1 is FALSE.
+        # Example: 11 < 1 is False.
+        result = "Just now"
+        return result
+
+    elif diff_minutes < 60:
+        #Condition: diff_minutes ({diff_minutes}) < 60 is TRUE.
+        # Example: 11 < 60 is True. This condition is met!
+
+        plural_s = 's' if diff_minutes != 1 else ''
+        #Plural 's' for minutes: '{plural_s}'
+        # Example: 's' because 11 is not 1.
+
+        result = f"{diff_minutes} minute{plural_s} ago"
+        #Returning: '{result}'
+        return result
+        # Function exits here.
+    
+    # The following conditions will NOT be evaluated because the 'elif diff_minutes < 60' was True.
+    elif diff_hours < 24:
+        #Condition: diff_hours ({diff_hours}) < 24 would be checked next (but won't be).
+        plural_s = 's' if diff_hours != 1 else ''
+        return f"{diff_hours} hour{plural_s} ago"
+    elif diff_days < 7:
+        #Condition: diff_days ({diff_days}) < 7 would be checked next (but won't be).
+        plural_s = 's' if diff_days != 1 else ''
+        return f"{diff_days} day{plural_s} ago"
+    else:
+        #"Condition: Fallback to full date would be checked next (but won't be).
+        return created_at_dt.strftime("%b %d, %Y")
+
 
 
 def notificationCreate(request):
-    return render(request,'notification/notification-page.html')
+    # all_notifs = UserNotification.objects.filter(user=request.user).order_by('-created_at')
+    
+
+    # for notif in all_notifs:
+    # created_at = UserNotification.objects.filter(user=request.user).values('created_at')                                 #format_time_ago_python()
+    # datetime.fromisoformat()         will use later
+
+    all_notifications_for_template = []
+    if request.user.is_authenticated:
+        user_notifications_qs = UserNotification.objects.filter(
+            user=request.user
+        ).order_by('-created_at')
+
+        for notif in user_notifications_qs:
+            formatted_time_ago = format_time_ago_python(notif.created_at)
+            notification_data = {
+                'id': notif.id,
+                'message': notif.message,
+                'electionId': notif.election_id,
+                'election_name': notif.election_name,
+                'is_read': notif.is_read,
+                'created_at_humanized': formatted_time_ago,
+            }
+            all_notifications_for_template.append(notification_data)
+
+ 
+    return render(request,'notification/notification-page.html',{ "all_notifications_for_template": all_notifications_for_template})
 
 
 
@@ -77,3 +201,6 @@ def save_notification_to_db(user_id, message,is_read=False, election_id=None, el
         print(f"Error saving notification to DB: {e}")
 
 
+
+def notification_list(request):
+    pass

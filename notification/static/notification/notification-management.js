@@ -74,17 +74,17 @@ notificationSocket.onmessage = function(e) {
 
     const message = data.event.message;
     const created_at = formatTimeAgo(data.event.created_at);
-    // Display the notification (e.g., using a toast library, or by updating a div)
-    alert("New Notification: " + message);
-    console.log("Received message:", message);
-     
+    // Display the notification (e.g., using a toast library, or by updating a div)  
+
     const newButton = document.createElement('button')
     const newDiv = document.createElement('div')
     const newIcon = document.createElement('i')
+
+    const bigDiv = document.createElement('div')
     //displayNotif.appendChild
     
     newDiv.innerHTML = `
-    <h3>Election Update</h3>
+    <h3  class="font-bold">Election Update</h3>
     <p>${created_at}</p>
     <p>${message}</p>
 `;
@@ -92,9 +92,16 @@ notificationSocket.onmessage = function(e) {
     newButton.textContent = "View"
 
 
-    displayNotif.appendChild(newIcon);
-    displayNotif.appendChild(newDiv);
-    displayNotif.appendChild(newButton);
+    bigDiv.appendChild(newIcon)
+    bigDiv.appendChild(newDiv)
+    bigDiv.appendChild(newButton) 
+    
+    newDiv.classList.add('styleNewDiv')
+    bigDiv.classList.add('styleBigDiv')
+    newButton.classList.add('styleNewButton')
+
+    displayNotif.prepend(bigDiv)
+
 };
 
 notificationSocket.onclose = function(e) {
